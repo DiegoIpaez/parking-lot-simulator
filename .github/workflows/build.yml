@@ -1,0 +1,31 @@
+name: Java Build and Test
+
+on:
+  push:
+    branches: [ main, dev ]
+  pull_request:
+    branches: [ main, dev ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Compile Java source files
+        run: |
+          mkdir -p out
+          find src/main/java -name "*.java" > sources.txt
+          javac -d out @sources.txt
+
+      - name: Run main class with simulated input
+        run: |
+          echo "0" | java -cp out com.dip.parkinglotsimulator.Main
