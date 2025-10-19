@@ -28,4 +28,4 @@ jobs:
 
       - name: Run main class
         run: |
-          java -cp out com.parkinglotsimulator.Main
+          java -cp out com.dip.parkinglotsimulator.Main
