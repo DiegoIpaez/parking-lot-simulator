@@ -1,4 +1,4 @@
-name: Java Build and Run
+name: Java Build and Test
 
 on:
   push:
@@ -26,6 +26,6 @@ jobs:
           find src/main/java -name "*.java" > sources.txt
           javac -d out @sources.txt
 
-      - name: Run main class
+      - name: Run main class with simulated input
         run: |
-          java -cp out com.dip.parkinglotsimulator.Main
+          echo "0" | java -cp out com.dip.parkinglotsimulator.Main
