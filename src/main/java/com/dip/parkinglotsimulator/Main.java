@@ -1,5 +1,7 @@
+package com.dip.parkinglotsimulator;
 import java.util.Scanner;
-import models.*;
+
+import com.dip.parkinglotsimulator.models.*;
 
 public class Main {
 

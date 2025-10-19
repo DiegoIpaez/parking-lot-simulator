@@ -1,8 +1,9 @@
-package models;
+package com.dip.parkinglotsimulator.models;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import utils.Constants;
+
+import com.dip.parkinglotsimulator.utils.Constants;
 
 public class Ticket {
     private Vehicle vehicle;

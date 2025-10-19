@@ -1,9 +1,10 @@
-package models;
+package com.dip.parkinglotsimulator.models;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import utils.Constants;
+
+import com.dip.parkinglotsimulator.utils.Constants;
 
 public class ParkingLot {
     private int maxCapacity;
