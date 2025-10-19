@@ -1,4 +1,4 @@
-package models;
+package com.dip.parkinglotsimulator.models;
 
 public class Vehicle {
     private String licensePlate;

@@ -1,4 +1,4 @@
-package utils;
+package com.dip.parkinglotsimulator.utils;
 
 public final class Constants {
 
