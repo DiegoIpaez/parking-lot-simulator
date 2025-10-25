@@ -1,10 +1,12 @@
 package com.dip.parkinglotsimulator.models;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 import com.dip.parkinglotsimulator.utils.Constants;
+import com.dip.parkinglotsimulator.utils.DateFormatter;
+
 
 public class ParkingLot {
     private int maxCapacity;
@@ -66,19 +68,45 @@ public class ParkingLot {
 
     public void showParkedVehicles() {
         System.out.println("\n=== Vehículos actualmente estacionados ===");
+
         if (activeTickets.isEmpty()) {
             System.out.println("No hay vehículos estacionados actualmente.");
-        } else {
-            activeTickets.forEach(ticket -> System.out.println(ticket.getVehicle()));
+            return;
+        }
+
+        System.out.printf("%-10s %-10s %-10s %-20s%n",
+                "Patente", "Marca", "Modelo", "Hora Entrada");
+        System.out.println("---------------------------------------------------------");
+        for (Ticket ticket : activeTickets) {
+            System.out.printf("%-10s %-10s %-10s %-20s%n",
+                    ticket.getVehicle().getLicensePlate(),
+                    ticket.getVehicle().getBrand(),
+                    ticket.getVehicle().getModel(),
+                    ticket.getEntryTime().format(DateFormatter.STANDARD_DATE_TIME_FORMATTER));
         }
     }
 
     public void showCompletedTickets() {
         System.out.println("\n=== Tickets completados (Historial) ===");
-        if (completedTickets.isEmpty())
+
+        if (completedTickets.isEmpty()) {
             System.out.println("Aún no hay registros.");
-        else
-            completedTickets.forEach(System.out::println);
+            return;
+        }
+
+        System.out.printf("%-10s %-10s %-10s %-20s %-20s %-10s%n", "Patente", "Marca", "Modelo", "Hora Entrada",
+                "Hora Salida", "Costo");
+        System.out.println("----------------------------------------------------------------------------------");
+
+        for (Ticket ticket : completedTickets) {
+            System.out.printf("%-10s %-10s %-10s %-20s %-20s $%-9.2f%n",
+                    ticket.getVehicle().getLicensePlate(),
+                    ticket.getVehicle().getBrand(),
+                    ticket.getVehicle().getModel(),
+                    ticket.getEntryTime().format(DateFormatter.STANDARD_DATE_TIME_FORMATTER),
+                    DateFormatter.formatDateTime(ticket.getExitTime()),
+                    ticket.calculateCost());
+        }
     }
 
     public int availableSpots() {
