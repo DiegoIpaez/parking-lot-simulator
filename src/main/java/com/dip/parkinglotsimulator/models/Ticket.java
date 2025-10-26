@@ -22,9 +22,12 @@ public class Ticket {
     public double calculateCost() {
         if (exitTime == null)
             return 0;
+
         long minutes = Duration.between(entryTime, exitTime).toMinutes();
-        double hours = Math.ceil(minutes / Constants.MINUTES_PER_HOUR);
-        return hours * Constants.HOURLY_RATE;
+        double costPerMinute = Constants.HOURLY_RATE / (double) Constants.MINUTES_PER_HOUR;
+        double totalCost = minutes * costPerMinute;
+        double roundedCost = Math.round(totalCost * 100.0) / 100.0;
+        return roundedCost;
     }
 
     public Vehicle getVehicle() {
