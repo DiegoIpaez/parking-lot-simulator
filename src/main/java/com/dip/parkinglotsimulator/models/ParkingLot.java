@@ -1,10 +1,12 @@
 package com.dip.parkinglotsimulator.models;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Iterator;
+import java.util.ArrayList;
 
 import com.dip.parkinglotsimulator.utils.Constants;
+import com.dip.parkinglotsimulator.utils.DateFormatter;
+
 
 public class ParkingLot {
     private int maxCapacity;
@@ -13,18 +15,25 @@ public class ParkingLot {
 
     public ParkingLot() {
         this.maxCapacity = Constants.MAX_CAPACITY;
-        this.activeTickets = new ArrayList<>();
-        this.completedTickets = new ArrayList<>();
+        this.activeTickets = new ArrayList<Ticket>();
+        this.completedTickets = new ArrayList<Ticket>();
     }
 
     public boolean parkVehicle(Vehicle vehicle) {
-        if (activeTickets.size() >= maxCapacity) {
+        int totalActiveTickets = activeTickets.size();
+        boolean isParkingFull = totalActiveTickets >= maxCapacity;
+
+        if (isParkingFull) {
             System.out.println("🚫 Estacionamiento lleno.");
             return false;
         }
 
-        for (Ticket t : activeTickets) {
-            if (t.getVehicle().getLicensePlate().equalsIgnoreCase(vehicle.getLicensePlate())) {
+        String newPlate = vehicle.getLicensePlate();
+        for (Ticket activeTicket : activeTickets) {
+            String activePlate = activeTicket.getVehicle().getLicensePlate();
+
+            boolean isRegistered = activePlate.equalsIgnoreCase(newPlate);
+            if (isRegistered) {
                 System.out.println("⚠️ Este vehículo ya se encuentra estacionado.");
                 return false;
             }
@@ -32,19 +41,24 @@ public class ParkingLot {
 
         Ticket newTicket = new Ticket(vehicle);
         activeTickets.add(newTicket);
-        System.out.println("✅ Vehículo estacionado correctamente: " + vehicle.getLicensePlate());
+
+        System.out.println("✅ Vehículo estacionado correctamente: " + newPlate);
         return true;
     }
 
     public boolean removeVehicle(String licensePlate) {
         Iterator<Ticket> it = activeTickets.iterator();
         while (it.hasNext()) {
-            Ticket t = it.next();
-            if (t.getVehicle().getLicensePlate().equalsIgnoreCase(licensePlate)) {
-                t.registerExit();
-                completedTickets.add(t);
+            Ticket activeTicket = it.next();
+            String activeLicensePlate = activeTicket.getVehicle().getLicensePlate();
+
+            if (activeLicensePlate.equalsIgnoreCase(licensePlate)) {
+                activeTicket.registerExit();
+                completedTickets.add(activeTicket);
                 it.remove();
-                System.out.println("💸 Vehículo retirado. Total a pagar: $" + t.calculateCost());
+
+                double totalCost = activeTicket.calculateCost();
+                System.out.printf("💸 Vehículo retirado. Total a pagar: $%.2f%n", totalCost);
                 return true;
             }
         }
@@ -54,19 +68,44 @@ public class ParkingLot {
 
     public void showParkedVehicles() {
         System.out.println("\n=== Vehículos actualmente estacionados ===");
+
         if (activeTickets.isEmpty()) {
             System.out.println("No hay vehículos estacionados actualmente.");
-        } else {
-            activeTickets.forEach(t -> System.out.println(t.getVehicle()));
+            return;
+        }
+
+        System.out.printf("%-10s %-10s %-10s %-20s%n",
+                "Patente", "Marca", "Modelo", "Hora Entrada");
+        System.out.println("---------------------------------------------------------");
+        for (Ticket ticket : activeTickets) {
+            System.out.printf("%-10s %-10s %-10s %-20s%n",
+                    ticket.getVehicle().getLicensePlate(),
+                    ticket.getVehicle().getBrand(),
+                    ticket.getVehicle().getModel(),
+                    ticket.getEntryTime().format(DateFormatter.STANDARD_DATE_TIME_FORMATTER));
         }
     }
 
     public void showCompletedTickets() {
         System.out.println("\n=== Tickets completados (Historial) ===");
+
         if (completedTickets.isEmpty()) {
             System.out.println("Aún no hay registros.");
-        } else {
-            completedTickets.forEach(System.out::println);
+            return;
+        }
+
+        System.out.printf("%-10s %-10s %-10s %-20s %-20s %-10s%n", "Patente", "Marca", "Modelo", "Hora Entrada",
+                "Hora Salida", "Costo");
+        System.out.println("----------------------------------------------------------------------------------");
+
+        for (Ticket ticket : completedTickets) {
+            System.out.printf("%-10s %-10s %-10s %-20s %-20s $%-9.2f%n",
+                    ticket.getVehicle().getLicensePlate(),
+                    ticket.getVehicle().getBrand(),
+                    ticket.getVehicle().getModel(),
+                    ticket.getEntryTime().format(DateFormatter.STANDARD_DATE_TIME_FORMATTER),
+                    DateFormatter.formatDateTime(ticket.getExitTime()),
+                    ticket.calculateCost());
         }
     }
 
