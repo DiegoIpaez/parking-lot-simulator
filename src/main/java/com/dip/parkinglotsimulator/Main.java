@@ -27,7 +27,7 @@ public class Main {
             System.out.println(OPTION_SHOW_AVAILABLE_SPOTS + ". Mostrar lugares disponibles");
             System.out.println(OPTION_EXIT + ". Salir");
             System.out.println("\nSeleccione una opción:");
-    
+
             String input = scanner.nextLine();
             try {
                 option = Integer.parseInt(input);
@@ -38,6 +38,10 @@ public class Main {
 
             switch (option) {
                 case OPTION_PARK_VEHICLE:
+                    if (parkingLot.isFull()) {
+                        System.out.println("\n🚫 Estacionamiento lleno.");
+                        break;
+                    }
                     System.out.print("Patente:\n");
                     String plate = scanner.nextLine();
                     System.out.print("Marca:\n");
