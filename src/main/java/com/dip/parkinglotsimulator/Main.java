@@ -1,5 +1,4 @@
 package com.dip.parkinglotsimulator;
-
 import java.util.Scanner;
 
 import com.dip.parkinglotsimulator.models.*;
@@ -16,8 +15,7 @@ public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         ParkingLot parkingLot = new ParkingLot();
-        int option = -1;
-
+        int option;
         do {
             System.out.println("\n===== SIMULADOR DE ESTACIONAMIENTO =====");
             System.out.println(OPTION_PARK_VEHICLE + ". Ingresar vehículo");
@@ -26,29 +24,24 @@ public class Main {
             System.out.println(OPTION_SHOW_TICKET_HISTORY + ". Mostrar historial de tickets");
             System.out.println(OPTION_SHOW_AVAILABLE_SPOTS + ". Mostrar lugares disponibles");
             System.out.println(OPTION_EXIT + ". Salir");
-            System.out.println("\nSeleccione una opción:");
-    
-            String input = scanner.nextLine();
-            try {
-                option = Integer.parseInt(input);
-            } catch (NumberFormatException error) {
-                System.out.println("⚠️ Opción inválida, ingrese un número.");
-                continue;
-            }
+            System.out.print("Seleccione una opción: ");
+
+            option = scanner.nextInt();
+            scanner.nextLine();
 
             switch (option) {
                 case OPTION_PARK_VEHICLE:
-                    System.out.print("Patente:\n");
+                    System.out.print("Patente: ");
                     String plate = scanner.nextLine();
-                    System.out.print("Marca:\n");
+                    System.out.print("Marca: ");
                     String brand = scanner.nextLine();
-                    System.out.print("Modelo:\n");
+                    System.out.print("Modelo: ");
                     String model = scanner.nextLine();
                     Vehicle vehicle = new Vehicle(plate, brand, model);
                     parkingLot.parkVehicle(vehicle);
                     break;
                 case OPTION_REMOVE_VEHICLE:
-                    System.out.print("Ingrese la patente:\n");
+                    System.out.print("Ingrese la patente: ");
                     String licensePlate = scanner.nextLine();
                     parkingLot.removeVehicle(licensePlate);
                     break;
@@ -62,7 +55,7 @@ public class Main {
                     System.out.println("Lugares disponibles: " + parkingLot.availableSpots());
                     break;
                 case OPTION_EXIT:
-                    System.out.println("\n👋 Saliendo del sistema...");
+                    System.out.println("👋 Saliendo del sistema...");
                     break;
                 default:
                     System.out.println("Opción no válida.");

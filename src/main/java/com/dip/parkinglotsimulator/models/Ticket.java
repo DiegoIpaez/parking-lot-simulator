@@ -22,12 +22,9 @@ public class Ticket {
     public double calculateCost() {
         if (exitTime == null)
             return 0;
-
         long minutes = Duration.between(entryTime, exitTime).toMinutes();
-        double costPerMinute = Constants.HOURLY_RATE / (double) Constants.MINUTES_PER_HOUR;
-        double totalCost = minutes * costPerMinute;
-        double roundedCost = Math.round(totalCost * 100.0) / 100.0;
-        return roundedCost;
+        double hours = Math.ceil(minutes / Constants.MINUTES_PER_HOUR);
+        return hours * Constants.HOURLY_RATE;
     }
 
     public Vehicle getVehicle() {
@@ -44,13 +41,10 @@ public class Ticket {
 
     @Override
     public String toString() {
-        double totalCost = calculateCost();
-        String formattedCost = String.format("%.2f", totalCost);
         return vehicle.toString() +
                 "\nHora de Entrada: " + entryTime +
                 (exitTime != null
-                        ? "\nHora de Salida: " + exitTime + "\nCosto Total: $" + formattedCost
+                        ? "\nHora de Salida: " + exitTime + "\nCosto Total: $" + calculateCost()
                         : "\n[Todavía Estacionado]");
     }
-
 }
