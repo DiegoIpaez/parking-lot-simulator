@@ -6,7 +6,7 @@ import java.time.format.DateTimeFormatter;
 public final class DateFormatter {
     private static final String DEFAULT_DATE_TIME_VALUE = "[N/A]";
     public static final DateTimeFormatter STANDARD_DATE_TIME_FORMATTER = DateTimeFormatter
-            .ofPattern("dd-MM-yyyy HH:mm");
+            .ofPattern("dd-MM-yyyy HH:mm:ss");
 
     private DateFormatter() {
     }
