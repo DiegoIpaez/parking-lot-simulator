@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import com.dip.parkinglotsimulator.utils.Constants;
 import com.dip.parkinglotsimulator.utils.DateFormatter;
 
-
 public class ParkingLot {
     private int maxCapacity;
     private List<Ticket> activeTickets;
@@ -19,11 +18,13 @@ public class ParkingLot {
         this.completedTickets = new ArrayList<Ticket>();
     }
 
-    public boolean parkVehicle(Vehicle vehicle) {
+    public boolean isFull() {
         int totalActiveTickets = activeTickets.size();
-        boolean isParkingFull = totalActiveTickets >= maxCapacity;
+        return totalActiveTickets >= maxCapacity;
+    }
 
-        if (isParkingFull) {
+    public boolean parkVehicle(Vehicle vehicle) {
+        if (isFull()) {
             System.out.println("🚫 Estacionamiento lleno.");
             return false;
         }
