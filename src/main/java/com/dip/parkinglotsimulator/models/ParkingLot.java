@@ -58,7 +58,7 @@ public class ParkingLot {
                 it.remove();
 
                 double totalCost = activeTicket.calculateCost();
-                System.out.println("💸 Vehículo retirado. Total a pagar: $" + totalCost);
+                System.out.printf("💸 Vehículo retirado. Total a pagar: $%.2f%n", totalCost);
                 return true;
             }
         }

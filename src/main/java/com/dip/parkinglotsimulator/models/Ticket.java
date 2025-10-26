@@ -44,10 +44,13 @@ public class Ticket {
 
     @Override
     public String toString() {
+        double totalCost = calculateCost();
+        String formattedCost = String.format("%.2f", totalCost);
         return vehicle.toString() +
                 "\nHora de Entrada: " + entryTime +
                 (exitTime != null
-                        ? "\nHora de Salida: " + exitTime + "\nCosto Total: $" + calculateCost()
+                        ? "\nHora de Salida: " + exitTime + "\nCosto Total: $" + formattedCost
                         : "\n[Todavía Estacionado]");
     }
+
 }
