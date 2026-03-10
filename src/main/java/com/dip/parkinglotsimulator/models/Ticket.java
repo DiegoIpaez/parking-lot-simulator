@@ -1,11 +1,12 @@
 package com.dip.parkinglotsimulator.models;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
 
 import com.dip.parkinglotsimulator.utils.Constants;
 
-public class Ticket {
+public class Ticket implements Serializable {
     private Vehicle vehicle;
     private LocalDateTime entryTime;
     private LocalDateTime exitTime;
