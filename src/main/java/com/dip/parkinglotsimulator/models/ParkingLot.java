@@ -1,5 +1,6 @@
 package com.dip.parkinglotsimulator.models;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import com.dip.parkinglotsimulator.utils.Constants;
 import com.dip.parkinglotsimulator.utils.DateFormatter;
 
-public class ParkingLot {
+public class ParkingLot implements Serializable {
     private int maxCapacity;
     private List<Ticket> activeTickets;
     private List<Ticket> completedTickets;
