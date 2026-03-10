@@ -3,9 +3,11 @@ package com.dip.parkinglotsimulator;
 import java.util.Scanner;
 
 import com.dip.parkinglotsimulator.models.*;
+import com.dip.parkinglotsimulator.utils.PersistenceManager;
 
 public class Main {
 
+    private static final String DATA_FILE = "parking_lot.dat";
     private static final int OPTION_PARK_VEHICLE = 1;
     private static final int OPTION_REMOVE_VEHICLE = 2;
     private static final int OPTION_SHOW_PARKED_VEHICLES = 3;
@@ -15,7 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        ParkingLot parkingLot = new ParkingLot();
+        ParkingLot parkingLot = PersistenceManager.load(DATA_FILE, new ParkingLot());
         int option = -1;
 
         do {
@@ -50,11 +52,13 @@ public class Main {
                     String model = scanner.nextLine();
                     Vehicle vehicle = new Vehicle(plate, brand, model);
                     parkingLot.parkVehicle(vehicle);
+                    PersistenceManager.save(parkingLot, DATA_FILE);
                     break;
                 case OPTION_REMOVE_VEHICLE:
                     System.out.print("Ingrese la patente:\n");
                     String licensePlate = scanner.nextLine();
                     parkingLot.removeVehicle(licensePlate);
+                    PersistenceManager.save(parkingLot, DATA_FILE);
                     break;
                 case OPTION_SHOW_PARKED_VEHICLES:
                     parkingLot.showParkedVehicles();

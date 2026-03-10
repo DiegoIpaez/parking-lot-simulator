@@ -1,6 +1,8 @@
 package com.dip.parkinglotsimulator.models;
 
-public class Vehicle {
+import java.io.Serializable;
+
+public class Vehicle implements Serializable {
     private String licensePlate;
     private String brand;
     private String model;
